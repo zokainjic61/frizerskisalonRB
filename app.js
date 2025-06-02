@@ -514,7 +514,7 @@ document.addEventListener('DOMContentLoaded', addTouchSupport);
 // Preload critical images
 function preloadImages() {
     const criticalImages = [
-        'https://pplx-res.cloudinary.com/image/upload/v1748882263/pplx_project_search_images/9159e82b32be9ce0d89f089d265f9b10f279a94f.jpg'
+        'https://github.com/zokainjic61/frizerskisalonRB/blob/603c75ebcd33420e97382115b7a626df27fb8479/greg-trowman-jsuWg7IXx1k-unsplash.jpg'
     ];
     
     criticalImages.forEach(src => {
