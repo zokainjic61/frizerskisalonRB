@@ -11,7 +11,7 @@ const translations = {
         // Hero section
         hero_title: "Frizerski salon Ružica & Branka",
         hero_subtitle: "Dvije profesionalne frizerke u srcu Čapljine",
-        hero_description: "Odkrijte savršenu kombinaciju stila i iskustva u našem salonu koji djeluje već preko 20 godina",
+        hero_description: "Otkrijte savršenu kombinaciju stila i iskustva u našem salonu koji djeluje već preko 20 godina",
         hero_cta: "Rezervirajte termin",
         
         // About section
@@ -59,7 +59,7 @@ const translations = {
         contact_book: "Rezervirajte termin",
         
         // Footer
-        footer_text: "&copy; 2024 Frizerski salon Ružica & Branka. Sva prava zadržana."
+        footer_text: "&copy; 2025 Frizerski salon Ružica & Branka. Sva prava zadržana."
     },
     en: {
         // Navigation
