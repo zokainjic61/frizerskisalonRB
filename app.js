@@ -59,11 +59,7 @@ const translations = {
         contact_book: "Rezervirajte termin",
         
         // Footer
-        footer_text: "&copy; 2024 Frizerski salon Ružica & Branka. Sva prava zadržana.",
-        
-        // Modal
-        modal_title: "Rezervirajte termin",
-        modal_text: "Za rezervaciju termina, molimo kontaktirajte jednu od naših frizerki:"
+        footer_text: "&copy; 2024 Frizerski salon Ružica & Branka. Sva prava zadržana."
     },
     en: {
         // Navigation
@@ -124,11 +120,7 @@ const translations = {
         contact_book: "Book Appointment",
         
         // Footer
-        footer_text: "&copy; 2024 Hair Salon Ružica & Branka. All rights reserved.",
-        
-        // Modal
-        modal_title: "Book Appointment",
-        modal_text: "To book an appointment, please contact one of our stylists:"
+        footer_text: "&copy; 2024 Hair Salon Ružica & Branka. All rights reserved."
     }
 };
 
@@ -140,9 +132,11 @@ let currentTheme = 'light';
 const languageToggle = document.getElementById('language-toggle');
 const currentLangSpan = document.getElementById('current-lang');
 const otherLangSpan = document.getElementById('other-lang');
+const themeToggle = document.getElementById('theme-toggle');
+const currentThemeSpan = document.getElementById('current-theme');
+const otherThemeSpan = document.getElementById('other-theme');
 const navbarToggle = document.getElementById('navbar-toggle');
 const navbarMenu = document.getElementById('navbar-menu');
-const themeToggleBtn = document.getElementById('theme-toggle-btn');
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
@@ -155,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Language functionality
 function initializeLanguage() {
     // Check if there's a saved language preference
-    const savedLanguage = sessionStorage.getItem('salon-language');
+    const savedLanguage = localStorage.getItem('salon-language');
     if (savedLanguage) {
         currentLanguage = savedLanguage;
     }
@@ -181,10 +175,16 @@ function updateDocumentLanguage() {
 
 function toggleLanguage() {
     currentLanguage = currentLanguage === 'hr' ? 'en' : 'hr';
-    sessionStorage.setItem('salon-language', currentLanguage);
+    localStorage.setItem('salon-language', currentLanguage);
     updateLanguageDisplay();
     translatePage();
     updateDocumentLanguage();
+    
+    // Add smooth animation
+    languageToggle.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+        languageToggle.style.transform = 'scale(1)';
+    }, 100);
 }
 
 function translatePage() {
@@ -205,7 +205,7 @@ function translatePage() {
 // Theme functionality
 function initializeTheme() {
     // Check if there's a saved theme preference
-    const savedTheme = sessionStorage.getItem('salon-theme');
+    const savedTheme = localStorage.getItem('salon-theme');
     if (savedTheme) {
         currentTheme = savedTheme;
         document.documentElement.setAttribute('data-theme', currentTheme);
@@ -216,34 +216,37 @@ function initializeTheme() {
         document.documentElement.setAttribute('data-theme', currentTheme);
     }
     
-    updateThemeToggleDisplay();
+    updateThemeDisplay();
 }
 
-function updateThemeToggleDisplay() {
-    const lightIcon = document.getElementById('light-icon');
-    const darkIcon = document.getElementById('dark-icon');
-    
+function updateThemeDisplay() {
     if (currentTheme === 'dark') {
-        lightIcon.style.display = 'none';
-        darkIcon.style.display = 'block';
+        currentThemeSpan.textContent = '🌙';
+        otherThemeSpan.textContent = '☀️';
     } else {
-        lightIcon.style.display = 'block';
-        darkIcon.style.display = 'none';
+        currentThemeSpan.textContent = '☀️';
+        otherThemeSpan.textContent = '🌙';
     }
 }
 
 function toggleTheme() {
     currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-    sessionStorage.setItem('salon-theme', currentTheme);
+    localStorage.setItem('salon-theme', currentTheme);
     document.documentElement.setAttribute('data-theme', currentTheme);
-    updateThemeToggleDisplay();
+    updateThemeDisplay();
+    
+    // Add smooth animation
+    themeToggle.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+        themeToggle.style.transform = 'scale(1)';
+    }, 100);
 }
 
 // Navigation functionality
 function setupEventListeners() {
     // Theme toggle
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', toggleTheme);
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
     }
     
     // Language toggle
@@ -297,10 +300,10 @@ function setupEventListeners() {
 
     // Listen for system theme changes
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-        if (!sessionStorage.getItem('salon-theme')) {
+        if (!localStorage.getItem('salon-theme')) {
             currentTheme = e.matches ? 'dark' : 'light';
             document.documentElement.setAttribute('data-theme', currentTheme);
-            updateThemeToggleDisplay();
+            updateThemeDisplay();
         }
     });
 }
@@ -407,3 +410,118 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Accessibility improvements
+function improveAccessibility() {
+    // Add keyboard navigation for toggles
+    if (themeToggle) {
+        themeToggle.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleTheme();
+            }
+        });
+    }
+    
+    if (languageToggle) {
+        languageToggle.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleLanguage();
+            }
+        });
+    }
+    
+    // Add aria labels
+    if (themeToggle) {
+        themeToggle.setAttribute('aria-label', 'Promijeni temu');
+        themeToggle.setAttribute('role', 'button');
+        themeToggle.setAttribute('tabindex', '0');
+    }
+    
+    if (languageToggle) {
+        languageToggle.setAttribute('aria-label', 'Promijeni jezik');
+        languageToggle.setAttribute('role', 'button');
+        languageToggle.setAttribute('tabindex', '0');
+    }
+}
+
+// Initialize accessibility improvements
+document.addEventListener('DOMContentLoaded', improveAccessibility);
+
+// Smooth animations for buttons
+function addButtonAnimations() {
+    const buttons = document.querySelectorAll('.btn, .language-btn');
+    
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-1px) scale(1.02)';
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+        
+        button.addEventListener('mousedown', function() {
+            this.style.transform = 'translateY(1px) scale(0.98)';
+        });
+        
+        button.addEventListener('mouseup', function() {
+            this.style.transform = 'translateY(-1px) scale(1.02)';
+        });
+    });
+}
+
+// Initialize button animations
+document.addEventListener('DOMContentLoaded', addButtonAnimations);
+
+// Performance monitoring for development
+function logPerformance() {
+    if ('performance' in window) {
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const perfData = performance.timing;
+                const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
+                console.log(`Page load time: ${pageLoadTime}ms`);
+            }, 0);
+        });
+    }
+}
+
+// Initialize performance monitoring in development
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    logPerformance();
+}
+
+// Additional touch support for mobile
+function addTouchSupport() {
+    const toggles = document.querySelectorAll('.language-btn');
+    
+    toggles.forEach(toggle => {
+        toggle.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.95)';
+        });
+        
+        toggle.addEventListener('touchend', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+}
+
+// Initialize touch support
+document.addEventListener('DOMContentLoaded', addTouchSupport);
+
+// Preload critical images
+function preloadImages() {
+    const criticalImages = [
+        'https://pplx-res.cloudinary.com/image/upload/v1748882263/pplx_project_search_images/9159e82b32be9ce0d89f089d265f9b10f279a94f.jpg'
+    ];
+    
+    criticalImages.forEach(src => {
+        const img = new Image();
+        img.src = src;
+    });
+}
+
+// Initialize image preloading
+document.addEventListener('DOMContentLoaded', preloadImages);

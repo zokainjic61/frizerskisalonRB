@@ -8,14 +8,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
 </head>
 <body>
-    <!-- Theme Toggle -->
-    <div class="theme-toggle">
-        <button id="theme-toggle-btn" aria-label="Promijeni temu">
-            <i class="ri-sun-line" id="light-icon"></i>
-            <i class="ri-moon-line" id="dark-icon"></i>
-        </button>
-    </div>
-
     <!-- Header -->
     <header class="header">
         <nav class="navbar container">
@@ -32,12 +24,22 @@
                     <li><a href="#contact" class="navbar__link" data-translate="nav_contact">Kontakt</a></li>
                 </ul>
                 
-                <div class="language-switcher">
-                    <button class="language-btn" id="language-toggle">
-                        <span id="current-lang">HR</span>
-                        <span class="language-divider">|</span>
-                        <span id="other-lang">EN</span>
-                    </button>
+                <div class="header-controls">
+                    <div class="theme-switcher">
+                        <button class="language-btn" id="theme-toggle">
+                            <span id="current-theme">☀️</span>
+                            <span class="language-divider">|</span>
+                            <span id="other-theme">🌙</span>
+                        </button>
+                    </div>
+                    
+                    <div class="language-switcher">
+                        <button class="language-btn" id="language-toggle">
+                            <span id="current-lang">HR</span>
+                            <span class="language-divider">|</span>
+                            <span id="other-lang">EN</span>
+                        </button>
+                    </div>
                 </div>
             </div>
             
@@ -52,7 +54,7 @@
     <!-- Hero Section -->
     <section id="home" class="hero hero--with-image">
         <div class="hero__image">
-            <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80" alt="Frizerski salon" class="hero__bg">
+            <img src="https://pplx-res.cloudinary.com/image/upload/v1748882263/pplx_project_search_images/9159e82b32be9ce0d89f089d265f9b10f279a94f.jpg" alt="Frizerski salon" class="hero__bg">
         </div>
         <div class="hero__overlay"></div>
         <div class="hero__content container">
@@ -206,14 +208,8 @@
         </div>
     </section>
 
-    <!-- Contact Section with Wallpaper -->
+    <!-- Contact Section -->
     <section id="contact" class="contact py-16">
-        <div class="contact-bg-wrapper">
-            <div class="contact-bg-image">
-                <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80" alt="" class="contact-bg">
-            </div>
-            <div class="contact-overlay"></div>
-        </div>
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title" data-translate="contact_title">Kontakt</h2>
