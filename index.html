@@ -1,272 +1,369 @@
 <!DOCTYPE html>
-<html lang="hr">
+<html lang="hr" data-color-scheme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frizerski salon Ružica & Branka - Čapljina</title>
+    <title>Frizerski salon Ružica & Branka - Online rezervacija</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Frizerski salon Ružica & Branka u Čapljini - Online rezervacija termina">
+    <meta name="theme-color" content="#21808d">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Salon Ružica & Branka">
+    
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
 </head>
 <body>
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="loading-overlay hidden">
+        <div class="spinner"></div>
+        <p data-translate="loading">Učitavanje...</p>
+    </div>
+
     <!-- Header -->
-    <header class="header">
-        <nav class="navbar container">
-            <div class="navbar__brand">
-                <h2>Frizerski salon Ružica & Branka</h2>
-            </div>
-            
-            <div class="navbar__menu" id="navbar-menu">
-                <ul class="navbar__list">
-                    <li><a href="#home" class="navbar__link" data-translate="nav_home">Početna</a></li>
-                    <li><a href="#about" class="navbar__link" data-translate="nav_about">O nama</a></li>
-                    <li><a href="#services" class="navbar__link" data-translate="nav_services">Usluge</a></li>
-                    <li><a href="#stylists" class="navbar__link" data-translate="nav_stylists">Naše frizerke</a></li>
-                    <li><a href="#contact" class="navbar__link" data-translate="nav_contact">Kontakt</a></li>
-                </ul>
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="brand">
+                    <h1 data-translate="salon_name">Salon Ružica & Branka</h1>
+                </div>
+                
+                <nav class="main-nav">
+                    <a href="#home" data-translate="nav_home">Početna</a>
+                    <a href="#about" data-translate="nav_about">O nama</a>
+                    <a href="#services" data-translate="nav_services">Usluge</a>
+                    <a href="#stylists" data-translate="nav_stylists">Naše frizerke</a>
+                    <a href="#contact" data-translate="nav_contact">Kontakt</a>
+                </nav>
                 
                 <div class="header-controls">
-                    <div class="theme-switcher">
-                        <button class="language-btn" id="theme-toggle">
-                            <span id="current-theme">☀️</span>
-                            <span class="language-divider">|</span>
-                            <span id="other-theme">🌙</span>
-                        </button>
-                    </div>
+                    <button id="language-toggle" class="control-btn" aria-label="Promijeni jezik">
+                        <span id="current-lang">HR</span>
+                        <span class="divider">/</span>
+                        <span id="other-lang">EN</span>
+                    </button>
                     
-                    <div class="language-switcher">
-                        <button class="language-btn" id="language-toggle">
-                            <span id="current-lang">HR</span>
-                            <span class="language-divider">|</span>
-                            <span id="other-lang">EN</span>
-                        </button>
-                    </div>
+                    <button id="theme-toggle" class="control-btn" aria-label="Promijeni temu">
+                        <span id="current-theme">☀️</span>
+                    </button>
+                    
+                    <button id="admin-toggle" class="control-btn admin-btn" data-translate="admin_title">
+                        👤 Administracija
+                    </button>
                 </div>
             </div>
-            
-            <button class="navbar__toggle" id="navbar-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </nav>
+        </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero hero--with-image">
-        <div class="hero__image">
-            <img src="https://www.dropbox.com/scl/fi/ybkhly92e6p3n2bkjtt2j/greg-trowman-jsuWg7IXx1k-unsplash.jpg?rlkey=9jlp3tycwtfykvnfw6n6zpf3w&st=65po5dxg&raw=1" alt="Frizerski salon" class="hero__bg">
-        </div>
-        <div class="hero__overlay"></div>
-        <div class="hero__content container">
-            <h1 class="hero__title" data-translate="hero_title">Frizerski salon Ružica & Branka</h1>
-            <p class="hero__subtitle" data-translate="hero_subtitle">Dvije profesionalne frizerke u srcu Čapljine</p>
-            <p class="hero__description" data-translate="hero_description">
-                Otkrijte savršenu kombinaciju stila i iskustva u našem salonu koji djeluje već preko 20 godina
-            </p>
-            <a href="#contact" class="btn btn--primary btn--lg hero__cta" data-translate="hero_cta">Rezervirajte termin</a>
-        </div>
-    </section>
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section id="home" class="hero-section">
+            <div class="hero-bg"></div>
+            <div class="container">
+                <div class="hero-content">
+                    <h1 data-translate="hero_title">Frizerski salon Ružica & Branka</h1>
+                    <p data-translate="hero_subtitle">Dvije profesionalne frizerke u srcu Čapljine</p>
+                    <p data-translate="hero_description">Otkrijte savršenu kombinaciju stila i iskustva u našem salonu koji djeluje već preko 20 godina</p>
+                    <button class="btn btn--primary btn--lg hero-cta" data-translate="hero_cta">Rezervirajte termin</button>
+                </div>
+            </div>
+        </section>
 
-    <!-- About Section -->
-    <section id="about" class="about py-16">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-translate="about_title">O našem salonu</h2>
-                <p class="section-subtitle" data-translate="about_subtitle">Vaš partneri za savršen izgled od 2001. godine</p>
+        <!-- About Section -->
+        <section id="about" class="about-section py-16">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2 data-translate="about_title">O nama</h2>
+                        <p data-translate="about_description">Frizerski salon Ružica & Branka posluje od 2001. godine, pružajući vrhunske frizerske usluge u Čapljini. Naš tim iskusnih frizerki osigurava personalizirani pristup svakom klijentu.</p>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number">2001</div>
+                            <div class="stat-label" data-translate="stat_established">Godina osnivanja</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">24+</div>
+                            <div class="stat-label" data-translate="stat_experience">Godina iskustva</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">2</div>
+                            <div class="stat-label" data-translate="stat_stylists">Profesionalne frizerke</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="services-section py-16">
+            <div class="container">
+                <h2 data-translate="services_title">Naše usluge</h2>
+                <div class="services-grid">
+                    <!-- Services will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Stylists Section -->
+        <section id="stylists" class="stylists-section py-16">
+            <div class="container">
+                <h2 data-translate="stylists_title">Naše frizerke</h2>
+                <div class="stylists-grid">
+                    <!-- Stylists will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section py-16">
+            <div class="container">
+                <h2 data-translate="contact_title">Kontakt</h2>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <h3 data-translate="address_title">Adresa</h3>
+                            <p>Mate Bobana bb, Čapljina</p>
+                        </div>
+                        <div class="contact-item">
+                            <h3 data-translate="hours_title">Radno vrijeme</h3>
+                            <div class="hours-list">
+                                <div>Ponedjeljak - Petak: 8:00 - 19:00</div>
+                                <div>Subota: 8:00 - 16:00</div>
+                                <div>Nedjelja: Zatvoreno</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Floating Booking Button -->
+    <button id="floating-booking-btn" class="floating-booking-btn" data-translate="float_btn">
+        📅 Rezerviraj Online
+    </button>
+
+    <!-- Booking Modal -->
+    <div id="booking-modal" class="modal booking-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-translate="book_title">Online Rezervacija</h2>
+                <button id="close-booking" class="modal-close">&times;</button>
             </div>
             
-            <div class="about__content">
-                <div class="about__text">
-                    <p data-translate="about_text1">
-                        Frizerski salon Ružica & Branka osnovane je 2001. godine u Čapljini. 
-                        Tokom više od 20 godina rada, postali smo sinonim za kvalitetu, 
-                        profesionalnost i inovativne frizure.
-                    </p>
-                    <p data-translate="about_text2">
-                        Naš tim čine dvije iskusne frizerke, Ružica i Branka, koje kontinuirano 
-                        prate najnovije trendove u svijetu frizerstva i kozmetike. 
-                        Svaki klijent je za nas jedinstven, te pristupamo svakom individualnom 
-                        zahtjevu s posebnom pažnjom.
-                    </p>
-                    
-                    <div class="about__stats">
-                        <div class="stat">
-                            <h3 class="stat__number">2001</h3>
-                            <p class="stat__label" data-translate="stat_established">Godina osnivanja</p>
+            <!-- Step Progress -->
+            <div class="progress-bar">
+                <div class="progress-steps">
+                    <div class="step active" data-step="1">
+                        <span class="step-number">1</span>
+                        <span class="step-label" data-translate="step_date">Datum</span>
+                    </div>
+                    <div class="step" data-step="2">
+                        <span class="step-number">2</span>
+                        <span class="step-label" data-translate="step_time">Vrijeme</span>
+                    </div>
+                    <div class="step" data-step="3">
+                        <span class="step-number">3</span>
+                        <span class="step-label" data-translate="step_service">Usluga</span>
+                    </div>
+                    <div class="step" data-step="4">
+                        <span class="step-number">4</span>
+                        <span class="step-label" data-translate="step_stylist">Frizerka</span>
+                    </div>
+                    <div class="step" data-step="5">
+                        <span class="step-number">5</span>
+                        <span class="step-label" data-translate="step_details">Podaci</span>
+                    </div>
+                    <div class="step" data-step="6">
+                        <span class="step-number">6</span>
+                        <span class="step-label" data-translate="step_confirm">Potvrda</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <!-- Booking Steps -->
+                <div class="booking-steps">
+                    <!-- Step 1: Date Selection -->
+                    <div id="step-1" class="booking-step active">
+                        <h3 data-translate="select_date">Odaberite datum</h3>
+                        <div class="calendar-container">
+                            <div class="calendar-header">
+                                <button id="prev-month" class="nav-btn">&lt;</button>
+                                <h4 id="calendar-month">Lipanj 2025</h4>
+                                <button id="next-month" class="nav-btn">&gt;</button>
+                            </div>
+                            <div class="calendar-grid">
+                                <div class="calendar-weekdays">
+                                    <div class="weekday">Pon</div>
+                                    <div class="weekday">Uto</div>
+                                    <div class="weekday">Sri</div>
+                                    <div class="weekday">Čet</div>
+                                    <div class="weekday">Pet</div>
+                                    <div class="weekday">Sub</div>
+                                    <div class="weekday">Ned</div>
+                                </div>
+                                <div id="calendar-days" class="calendar-days">
+                                    <!-- Days will be populated by JavaScript -->
+                                </div>
+                            </div>
                         </div>
-                        <div class="stat">
-                            <h3 class="stat__number">20+</h3>
-                            <p class="stat__label" data-translate="stat_experience">Godina iskustva</p>
+                    </div>
+
+                    <!-- Step 2: Time Selection -->
+                    <div id="step-2" class="booking-step">
+                        <h3 data-translate="select_time">Odaberite vrijeme</h3>
+                        <div class="time-slots">
+                            <!-- Time slots will be populated by JavaScript -->
                         </div>
-                        <div class="stat">
-                            <h3 class="stat__number">2</h3>
-                            <p class="stat__label" data-translate="stat_stylists">Profesionalne frizerke</p>
+                    </div>
+
+                    <!-- Step 3: Service Selection -->
+                    <div id="step-3" class="booking-step">
+                        <h3 data-translate="select_service">Odaberite uslugu</h3>
+                        <div class="services-list">
+                            <!-- Services will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Stylist Selection -->
+                    <div id="step-4" class="booking-step">
+                        <h3 data-translate="select_stylist">Odaberite frizerku</h3>
+                        <div class="stylists-list">
+                            <!-- Stylists will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Contact Details -->
+                    <div id="step-5" class="booking-step">
+                        <h3 data-translate="enter_details">Unesite svoje podatke</h3>
+                        <form id="booking-form" class="booking-form">
+                            <div class="form-group">
+                                <label for="client-name" data-translate="name_label">Ime i prezime</label>
+                                <input type="text" id="client-name" class="form-control" name="name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="client-phone" data-translate="phone_label">Broj telefona</label>
+                                <input type="tel" id="client-phone" class="form-control" name="phone" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="client-email" data-translate="email_label">Email adresa</label>
+                                <input type="email" id="client-email" class="form-control" name="email">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="booking-notes" data-translate="notes_label">Napomene (opcionalno)</label>
+                                <textarea id="booking-notes" class="form-control" name="notes" rows="3"></textarea>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Step 6: Confirmation -->
+                    <div id="step-6" class="booking-step">
+                        <h3 data-translate="confirm_booking">Potvrda rezervacije</h3>
+                        <div class="booking-summary">
+                            <!-- Summary will be populated by JavaScript -->
                         </div>
                     </div>
                 </div>
-                
-                <div class="about__image">
-                    <img src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Interijer salona" class="about__img">
-                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="prev-step" class="btn btn--secondary" data-translate="previous">Nazad</button>
+                <button id="next-step" class="btn btn--primary" data-translate="next">Dalje</button>
+                <button id="confirm-booking" class="btn btn--primary hidden" data-translate="confirm">Potvrdi rezervaciju</button>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Services Section -->
-    <section id="services" class="services py-16">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-translate="services_title">Naše usluge</h2>
-                <p class="section-subtitle" data-translate="services_subtitle">Profesionalne frizerske usluge za sve vaše potrebe</p>
+    <!-- Admin Modal -->
+    <div id="admin-modal" class="modal admin-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-translate="admin_title">Administracija</h2>
+                <button id="close-admin" class="modal-close">&times;</button>
             </div>
             
-            <div class="services__content">
-                <div class="services__image">
-                    <img src="https://images.unsplash.com/photo-1582095133179-bfd08e2fc6b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Frizerske usluge" class="services__img">
+            <div class="modal-body">
+                <!-- Admin Login -->
+                <div id="admin-login" class="admin-section active">
+                    <form id="login-form" class="login-form">
+                        <div class="form-group">
+                            <label for="admin-email" data-translate="email_label">Email</label>
+                            <input type="email" id="admin-email" class="form-control" required 
+                                   placeholder="ruzica@salon.hr ili branka@salon.hr">
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-password" data-translate="password_label">Lozinka</label>
+                            <input type="password" id="admin-password" class="form-control" required
+                                   placeholder="demo123">
+                        </div>
+                        <button type="submit" class="btn btn--primary" data-translate="login">Prijaviť se</button>
+                        <p class="demo-info">Demo podaci: ruzica@salon.hr / demo123</p>
+                    </form>
                 </div>
-                
-                <div class="services__grid">
-                    <div class="service-card">
-                        <div class="service-card__icon">✂️</div>
-                        <h3 class="service-card__title" data-translate="service_womens">Žensko šišanje i styling</h3>
-                        <p class="service-card__description" data-translate="service_womens_desc">Kreativno šišanje i styling prilagođen vašoj osobnosti</p>
-                    </div>
-                    
-                    <div class="service-card">
-                        <div class="service-card__icon">👨</div>
-                        <h3 class="service-card__title" data-translate="service_mens">Muško šišanje i oblikovanje brade</h3>
-                        <p class="service-card__description" data-translate="service_mens_desc">Moderna muška frizura i precizno oblikovanje brade</p>
-                    </div>
-                    
-                    <div class="service-card">
-                        <div class="service-card__icon">🎨</div>
-                        <h3 class="service-card__title" data-translate="service_coloring">Profesionalno farbanje kose</h3>
-                        <p class="service-card__description" data-translate="service_coloring_desc">Kvalitetni proizvodi za dugotrajnu boju</p>
-                    </div>
-                    
-                    <div class="service-card">
-                        <div class="service-card__icon">👰</div>
-                        <h3 class="service-card__title" data-translate="service_special">Svečane frizure</h3>
-                        <p class="service-card__description" data-translate="service_special_desc">Elegantne frizure za posebne prilike</p>
-                    </div>
-                    
-                    <div class="service-card">
-                        <div class="service-card__icon">💨</div>
-                        <h3 class="service-card__title" data-translate="service_styling">Feniranje i kreiranje lokni</h3>
-                        <p class="service-card__description" data-translate="service_styling_desc">Profesionalno oblikovanje za savršen volumen</p>
-                    </div>
-                    
-                    <div class="service-card">
-                        <div class="service-card__icon">✨</div>
-                        <h3 class="service-card__title" data-translate="service_balayage">Balayage i moderne tehnike</h3>
-                        <p class="service-card__description" data-translate="service_balayage_desc">Najnovije tehnike bojenja za prirodan izgled</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Our Stylists Section -->
-    <section id="stylists" class="stylists py-16">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-translate="stylists_title">Naše frizerke</h2>
-                <p class="section-subtitle" data-translate="stylists_subtitle">Upoznajte naš profesionalni tim</p>
-            </div>
-            
-            <div class="stylists__wrapper">
-                <div class="stylists__image">
-                    <img src="https://images.unsplash.com/photo-1559599101-f09722fb4948?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Tim frizerki" class="stylists__img">
-                </div>
-                
-                <div class="stylists__grid">
-                    <div class="stylist-card">
-                        <div class="stylist-card__content">
-                            <h3 class="stylist-card__name">Frizerka Branka</h3>
-                            <p class="stylist-card__description" data-translate="branka_desc">
-                                Iskusna profesionalka s dugogodišnjim iskustvom u frizerstvu
-                            </p>
-                            <a href="https://alvo.chat/65Pp" target="_blank" class="btn btn--primary stylist-card__contact">
-                                <span data-translate="contact_branka">Kontaktirajte Frizerku Branku</span> 💇‍♀️
-                            </a>
+                <!-- Admin Dashboard -->
+                <div id="admin-dashboard" class="admin-section">
+                    <div class="dashboard-header">
+                        <h3 data-translate="dashboard_title">Dashboard</h3>
+                        <button id="admin-logout" class="btn btn--secondary" data-translate="logout">Odjava</button>
+                    </div>
+                    
+                    <!-- Today's Appointments -->
+                    <div class="dashboard-section">
+                        <h4 data-translate="todays_appointments">Današnji termini</h4>
+                        <div id="todays-appointments" class="appointments-list">
+                            <!-- Today's appointments will be populated here -->
                         </div>
                     </div>
                     
-                    <div class="stylist-card">
-                        <div class="stylist-card__content">
-                            <h3 class="stylist-card__name">Frizerka Ružica</h3>
-                            <p class="stylist-card__description" data-translate="ruzica_desc">
-                                Kreativna frizerka koja prati najnovije trendove u frizerstvu
-                            </p>
-                            <a href="https://alvo.chat/65Pv" target="_blank" class="btn btn--primary stylist-card__contact">
-                                <span data-translate="contact_ruzica">Kontaktirajte Frizerku Ružicu</span> 💇‍♀️
-                            </a>
+                    <!-- All Appointments -->
+                    <div class="dashboard-section">
+                        <h4 data-translate="all_appointments">Svi termini</h4>
+                        <div class="filters">
+                            <input type="date" id="filter-date" class="form-control">
+                            <select id="filter-stylist" class="form-control">
+                                <option value="" data-translate="all_stylists">Sve frizerke</option>
+                                <option value="Ružica">Ružica</option>
+                                <option value="Branka">Branka</option>
+                            </select>
+                        </div>
+                        <div id="all-appointments" class="appointments-list">
+                            <!-- All appointments will be populated here -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact py-16">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-translate="contact_title">Kontakt</h2>
-                <p class="section-subtitle" data-translate="contact_subtitle">Pronađite nas i zakažite svoj termin</p>
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal success-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-translate="booking_success">Rezervacija uspješna!</h3>
+                <button id="close-success" class="modal-close">&times;</button>
             </div>
-            
-            <div class="contact__content">
-                <div class="contact__info">
-                    <div class="contact__item">
-                        <h4 data-translate="contact_address_title">Adresa</h4>
-                        <p>Mate Bobana bb<br>Čapljina</p>
-                        <a href="https://maps.app.goo.gl/EhzGGRtxrnDfrVT39" target="_blank" class="btn btn--outline mt-8">
-                            <span data-translate="contact_maps">Pogledaj na Google Maps</span> 📍
-                        </a>
-                    </div>
-                    
-                    <div class="contact__item">
-                        <h4 data-translate="contact_hours_title">Radno vrijeme</h4>
-                        <p data-translate="contact_hours">
-                            Ponedjeljak - Petak: 8:00 - 20:00<br>
-                            Subota: 8:00 - 16:00<br>
-                            Nedjelja: Zatvoreno
-                        </p>
-                    </div>
-                    
-                    <div class="contact__item">
-                        <h4 data-translate="contact_reservation_title">Rezervacija</h4>
-                        <p data-translate="contact_reservation_text">Zakažite svoj termin unaprijed</p>
-                        <div class="contact__buttons">
-                            <a href="https://alvo.chat/65Pp" target="_blank" class="btn btn--primary mt-8 mb-8">
-                                <span data-translate="contact_branka">Kontaktirajte Frizerku Branku</span> 💇‍♀️
-                            </a>
-                            <a href="https://alvo.chat/65Pv" target="_blank" class="btn btn--primary">
-                                <span data-translate="contact_ruzica">Kontaktirajte Frizerku Ružicu</span> 💇‍♀️
-                            </a>
-                        </div>
-                    </div>
+            <div class="modal-body">
+                <p data-translate="booking_success_message">Vaša rezervacija je uspješno kreirana. Dostat ćete potvrdu na email.</p>
+                <div id="booking-details" class="booking-details">
+                    <!-- Booking details will be populated here -->
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button id="new-booking" class="btn btn--primary" data-translate="new_booking">Nova rezervacija</button>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer__content">
-                <div class="footer__section">
-                    <h4>Frizerski salon Ružica & Branka</h4>
-                    <p>Mate Bobana bb, Čapljina</p>
-                </div>
-                
-                <div class="footer__section">
-                    <p data-translate="footer_text">&copy; 2025 Frizerski salon Ružica & Branka. Sva prava zadržana.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
 
     <script src="app.js"></script>
 </body>

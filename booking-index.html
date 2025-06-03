@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="hr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="booking_title">Firebase Booking - Salon Ružica & Branka</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Online booking sistem za frizerski salon Ružica & Branka">
+    <meta name="theme-color" content="#21808d">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Salon Booking">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-functions-compat.js"></script>
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="loading-overlay">
+        <div class="spinner"></div>
+        <p data-translate="loading">Učitavanje...</p>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app" class="app-container">
+        <!-- Header -->
+        <header class="booking-header">
+            <div class="header-content">
+                <div class="brand">
+                    <h1 data-translate="salon_name">Salon Ružica & Branka</h1>
+                    <p data-translate="booking_subtitle">Online rezervacija termina</p>
+                </div>
+                
+                <div class="header-controls">
+                    <!-- Language Toggle -->
+                    <button id="language-toggle" class="control-btn" aria-label="Promijeni jezik">
+                        <span id="current-lang">HR</span>
+                        <span class="divider">/</span>
+                        <span id="other-lang">EN</span>
+                    </button>
+                    
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle" class="control-btn" aria-label="Promijeni temu">
+                        <span id="current-theme">☀️</span>
+                        <span class="divider">/</span>
+                        <span id="other-theme">🌙</span>
+                    </button>
+                    
+                    <!-- Admin Toggle -->
+                    <button id="admin-toggle" class="control-btn admin-btn" data-translate="admin_login">
+                        👤 Admin
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Client Booking View -->
+            <div id="client-view" class="view active">
+                <!-- Step Progress -->
+                <div class="progress-bar">
+                    <div class="progress-steps">
+                        <div class="step active" data-step="1">
+                            <span class="step-number">1</span>
+                            <span class="step-label" data-translate="step_date">Datum</span>
+                        </div>
+                        <div class="step" data-step="2">
+                            <span class="step-number">2</span>
+                            <span class="step-label" data-translate="step_time">Vrijeme</span>
+                        </div>
+                        <div class="step" data-step="3">
+                            <span class="step-number">3</span>
+                            <span class="step-label" data-translate="step_service">Usluga</span>
+                        </div>
+                        <div class="step" data-step="4">
+                            <span class="step-number">4</span>
+                            <span class="step-label" data-translate="step_stylist">Frizerka</span>
+                        </div>
+                        <div class="step" data-step="5">
+                            <span class="step-number">5</span>
+                            <span class="step-label" data-translate="step_details">Podaci</span>
+                        </div>
+                        <div class="step" data-step="6">
+                            <span class="step-number">6</span>
+                            <span class="step-label" data-translate="step_confirm">Potvrda</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Booking Steps -->
+                <div class="booking-steps">
+                    <!-- Step 1: Date Selection -->
+                    <div id="step-1" class="booking-step active">
+                        <h2 data-translate="select_date">Odaberite datum</h2>
+                        <div class="calendar-container">
+                            <div class="calendar-header">
+                                <button id="prev-month" class="nav-btn">&lt;</button>
+                                <h3 id="calendar-month">Novembar 2024</h3>
+                                <button id="next-month" class="nav-btn">&gt;</button>
+                            </div>
+                            <div class="calendar-grid">
+                                <div class="calendar-weekdays">
+                                    <div class="weekday" data-translate="monday">Pon</div>
+                                    <div class="weekday" data-translate="tuesday">Uto</div>
+                                    <div class="weekday" data-translate="wednesday">Sri</div>
+                                    <div class="weekday" data-translate="thursday">Čet</div>
+                                    <div class="weekday" data-translate="friday">Pet</div>
+                                    <div class="weekday" data-translate="saturday">Sub</div>
+                                    <div class="weekday" data-translate="sunday">Ned</div>
+                                </div>
+                                <div id="calendar-days" class="calendar-days">
+                                    <!-- Days will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Time Selection -->
+                    <div id="step-2" class="booking-step">
+                        <h2 data-translate="select_time">Odaberite vrijeme</h2>
+                        <div class="time-slots">
+                            <!-- Time slots will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Service Selection -->
+                    <div id="step-3" class="booking-step">
+                        <h2 data-translate="select_service">Odaberite uslugu</h2>
+                        <div class="services-grid">
+                            <!-- Services will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Stylist Selection -->
+                    <div id="step-4" class="booking-step">
+                        <h2 data-translate="select_stylist">Odaberite frizerku</h2>
+                        <div class="stylists-grid">
+                            <!-- Stylists will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Contact Details -->
+                    <div id="step-5" class="booking-step">
+                        <h2 data-translate="enter_details">Unesite svoje podatke</h2>
+                        <form id="booking-form" class="booking-form">
+                            <div class="form-group">
+                                <label for="client-name" data-translate="name_label">Ime i prezime</label>
+                                <input type="text" id="client-name" name="name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="client-phone" data-translate="phone_label">Broj telefona</label>
+                                <input type="tel" id="client-phone" name="phone" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="client-email" data-translate="email_label">Email adresa</label>
+                                <input type="email" id="client-email" name="email">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="booking-notes" data-translate="notes_label">Napomene (opcionalno)</label>
+                                <textarea id="booking-notes" name="notes" rows="3"></textarea>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Step 6: Confirmation -->
+                    <div id="step-6" class="booking-step">
+                        <h2 data-translate="confirm_booking">Potvrda rezervacije</h2>
+                        <div class="booking-summary">
+                            <!-- Summary will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="step-navigation">
+                    <button id="prev-step" class="btn btn--secondary" data-translate="previous">Nazad</button>
+                    <button id="next-step" class="btn btn--primary" data-translate="next">Dalje</button>
+                    <button id="confirm-booking" class="btn btn--primary hidden" data-translate="confirm">Potvrdi rezervaciju</button>
+                </div>
+            </div>
+
+            <!-- Admin View -->
+            <div id="admin-view" class="view">
+                <!-- Admin Login -->
+                <div id="admin-login" class="admin-section active">
+                    <div class="login-form">
+                        <h2 data-translate="admin_login_title">Admin prijava</h2>
+                        <form id="login-form">
+                            <div class="form-group">
+                                <label for="admin-email" data-translate="email_label">Email</label>
+                                <input type="email" id="admin-email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-password" data-translate="password_label">Lozinka</label>
+                                <input type="password" id="admin-password" required>
+                            </div>
+                            <button type="submit" class="btn btn--primary" data-translate="login">Prijaviť se</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Admin Dashboard -->
+                <div id="admin-dashboard" class="admin-section">
+                    <div class="dashboard-header">
+                        <h2 data-translate="dashboard_title">Dashboard</h2>
+                        <button id="admin-logout" class="btn btn--secondary" data-translate="logout">Odjava</button>
+                    </div>
+                    
+                    <!-- Today's Appointments -->
+                    <div class="dashboard-section">
+                        <h3 data-translate="todays_appointments">Današnji termini</h3>
+                        <div id="todays-appointments" class="appointments-list">
+                            <!-- Today's appointments will be populated here -->
+                        </div>
+                    </div>
+                    
+                    <!-- All Appointments -->
+                    <div class="dashboard-section">
+                        <h3 data-translate="all_appointments">Svi termini</h3>
+                        <div class="filters">
+                            <input type="date" id="filter-date" class="form-control">
+                            <select id="filter-stylist" class="form-control">
+                                <option value="" data-translate="all_stylists">Sve frizerke</option>
+                            </select>
+                        </div>
+                        <div id="all-appointments" class="appointments-list">
+                            <!-- All appointments will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Success Modal -->
+        <div id="success-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 data-translate="booking_success">Rezervacija uspješna!</h3>
+                </div>
+                <div class="modal-body">
+                    <p data-translate="booking_success_message">Vaša rezervacija je uspješno kreirana. Dostat ćete potvrdu na email.</p>
+                    <div id="booking-details" class="booking-details">
+                        <!-- Booking details will be populated here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="close-success" class="btn btn--primary" data-translate="close">Zatvori</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Modal -->
+        <div id="error-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 data-translate="error_title">Greška</h3>
+                </div>
+                <div class="modal-body">
+                    <p id="error-message">Došlo je do greške. Molimo pokušajte ponovo.</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="close-error" class="btn btn--primary" data-translate="close">Zatvori</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- App JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>
